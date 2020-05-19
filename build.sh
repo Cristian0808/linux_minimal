@@ -14,7 +14,7 @@ wget https://ftp.gnu.org/gnu/coreutils/coreutils-8.32.tar.gz
 mkdir $TARGET
 cd $TARGET
 umask 022
-mkdir usr usr/bin usr/include usr/lib usr/lib32 usr/lib64 usr/libx32 usr/sbin boot dev etc home media mnt opt proc root run srv sys var src
+mkdir usr usr/bin usr/include usr/lib usr/lib32 usr/lib64 usr/libx32 usr/sbin boot isolinux dev etc home media mnt opt proc root run srv sys var src
 ln -s usr/bin bin
 ln -s usr/lib lib
 ln -s usr/lib32 lib32
