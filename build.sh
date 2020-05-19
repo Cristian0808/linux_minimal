@@ -31,30 +31,31 @@ tar -xvf ../../linux-5.6.13.tar.xz
 echo "Compilando codigo-fonte"
 cd coreutils-8.32
 ./configure --prefix=$TARGET --exec-prefix=$TARGET
-make
+make -j12
 make install
 cd ..
 cd inetutils-1.9.4
 ./configure --prefix=$TARGET --exec-prefix=$TARGET
-make
+make -j12
 make install
 cd ..
 cd bash-5.0
 ./configure --prefix=$TARGET --exec-prefix=$TARGET --enable-static-link
-make
+make -j12
 make install
 cd ..
 cd util-linux-2.35
 ./configure --prefix=$TARGET --exec-prefix=$TARGET
-make
+make -j12
 make install
 cd ..
 cd linux-5.6.13
 make mrproper
 make menuconfig
 export INSTALL_PATH=$TARGET/boot
-make
-make install
+make -j12
+make install 
+make modules_install -j12
 cd ..
 cd ..
 echo "Baixando isolinux.bin"
