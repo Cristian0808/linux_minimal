@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+export FORCE_UNSAFE_CONFIGURE=1
 echo "Digite o caminho de compilacao"
 read TARGET
 echo "Baixando dependencias"
