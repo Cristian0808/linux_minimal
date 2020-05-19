@@ -65,7 +65,7 @@ DEFAULT linux
 
 LABEL linux
      KERNEL /boot/vmlinuz
-     APPEND init=/bin/bash root=/dev/sr0
+     APPEND init=/bin/bash root=/dev/ram0
 EOF
 cat > init << "EOF"
 mount -o proc none /proc
