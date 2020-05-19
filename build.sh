@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 echo "Digite o caminho de compilacao"
 read TARGET
 echo "Fazendo o download do codigo-fonte"
