@@ -69,4 +69,5 @@ exec /bin/bash
 EOF
 chmod +x init
 ln -s /boot/vmlinuz-5.6.13 /boot/vmlinuz
+genisoimage -b boot/isolinux.bin -boot-info-table -no-emul-boot -boot-load-size 4 -o SO_Linux.iso $TARGET/
 exit 0
