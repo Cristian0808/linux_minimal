@@ -62,7 +62,7 @@ LABEL linux
      KERNEL /boot/vmlinuz
      APPEND init=/init root=/dev/sr0
 EOF
-cat > init < "EOF"
+cat > init << "EOF"
 mount -o proc none /proc
 mount -o sysfs none /sys
 exec /bin/bash
