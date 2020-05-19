@@ -4,7 +4,7 @@ export FORCE_UNSAFE_CONFIGURE=1
 echo "Digite o caminho de compilacao"
 read TARGET
 echo "Baixando dependencias"
-sudo apt-get install gcc g++ make libssl-dev bison flex mkisofs
+sudo apt-get install gcc g++ make libssl-dev libncurses-dev bison flex mkisofs -y
 echo "Fazendo o download do codigo-fonte"
 wget https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.6.13.tar.xz
 wget https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v2.35/util-linux-2.35.tar.gz
