@@ -3,7 +3,7 @@ set -e
 echo "Digite o caminho de compilacao"
 read TARGET
 echo "Baixando dependencias"
-sudo apt-get install gcc g++ make libssl-dev bison flex
+sudo apt-get install gcc g++ make libssl-dev bison flex mkisofs
 echo "Fazendo o download do codigo-fonte"
 wget https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.6.13.tar.xz
 wget https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v2.35/util-linux-2.35.tar.gz
@@ -72,5 +72,5 @@ exec /bin/bash
 EOF
 chmod +x init
 ln -s /boot/vmlinuz-5.6.13 /boot/vmlinuz
-genisoimage -b boot/isolinux.bin -boot-info-table -no-emul-boot -boot-load-size 4 -o SO_Linux.iso $TARGET/
+genisoimage -b isolinux/isolinux.bin -boot-info-table -no-emul-boot -boot-load-size 4 -o SO_Linux.iso $TARGET/
 exit 0
