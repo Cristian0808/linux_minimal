@@ -58,6 +58,23 @@ make install
 make modules_install -j12
 cd ..
 cd ..
+rm -rf src
+echo "Criando initramfs"
+find . | cpio -H newc -o > initramfs.cpio
+cat initramfs.cpio | gzip > boot/initramfs.igz
+rm initramfs.cpio
+cat > init << "EOF"
+mount -o proc none /proc
+mount -o sysfs none /sys
+mknod /dev/null c 1 3
+mknod /dev/tty c 5 0
+mdev -s
+exec /bin/bash
+EOF
+cat > etc/fstab << "EOF"
+/dev/ram0 /
+EOF
+rm -rf  usr dev etc home media mnt opt proc root run srv sys var
 echo "Baixando isolinux.bin"
 wget http://mirror.centos.org/centos/6/os/x86_64/isolinux/isolinux.bin -O isolinux/isolinux.bin
 cat > isolinux/isolinux.cfg << "EOF"
@@ -65,15 +82,8 @@ DEFAULT linux
 
 LABEL linux
      KERNEL /boot/vmlinuz
-     APPEND init=/bin/bash root=/dev/ram0
-EOF
-cat > init << "EOF"
-mount -o proc none /proc
-mount -o sysfs none /sys
-exec /bin/bash
-EOF
-cat > etc/fstab << "EOF"
-/dev/sr0 / iso9660 default,rw
+     INITRD /boot/initramfs.igz
+     APPEND root=/dev/ram0
 EOF
 chmod +x init
 ln -s boot/vmlinuz-5.6.13 boot/vmlinuz
