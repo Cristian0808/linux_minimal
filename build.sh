@@ -65,7 +65,7 @@ DEFAULT linux
 
 LABEL linux
      KERNEL /boot/vmlinuz
-     APPEND init=/init root=/dev/sr0
+     APPEND init=/bin/bash root=/dev/sr0
 EOF
 cat > init << "EOF"
 mount -o proc none /proc
@@ -73,6 +73,6 @@ mount -o sysfs none /sys
 exec /bin/bash
 EOF
 chmod +x init
-ln -s /boot/vmlinuz-5.6.13 /boot/vmlinuz
+ln -s boot/vmlinuz-5.6.13 boot/vmlinuz
 genisoimage -b isolinux/isolinux.bin -boot-info-table -no-emul-boot -boot-load-size 4 -o SO_Linux.iso $TARGET/
 exit 0
