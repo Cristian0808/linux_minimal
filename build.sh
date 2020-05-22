@@ -57,6 +57,7 @@ make -j12
 make install 
 make modules_install -j12
 cd ..
+ln  -s bin/bash bin/sh
 cd ..
 rm -rf src
 echo "Criando initramfs"
@@ -69,10 +70,7 @@ mount -o sysfs none /sys
 mknod /dev/null c 1 3
 mknod /dev/tty c 5 0
 mdev -s
-exec /bin/bash
-EOF
-cat > etc/fstab << "EOF"
-/dev/ram0 /
+exec /bin/sh
 EOF
 rm -rf  usr dev etc home media mnt opt proc root run srv sys var
 echo "Baixando isolinux.bin"
@@ -83,9 +81,9 @@ DEFAULT linux
 LABEL linux
      KERNEL /boot/vmlinuz
      INITRD /boot/initramfs.igz
-     APPEND root=/dev/ram0
+     APPEND root=/dev/ram0 init=/init
 EOF
-chmod +x init
+chmod 777 init
 ln -s boot/vmlinuz-5.6.13 boot/vmlinuz
 genisoimage -b isolinux/isolinux.bin -boot-info-table -no-emul-boot -boot-load-size 4 -allow-limited-size -o SO_Linux.iso $TARGET/
 exit 0
