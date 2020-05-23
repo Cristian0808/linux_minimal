@@ -57,8 +57,8 @@ make -j12
 make install 
 make modules_install -j12
 cd ..
-ln  -s bin/bash bin/sh
 cd ..
+ln -s bin/bash bin/sh
 rm -rf src
 echo "Criando initramfs"
 find . | cpio -H newc -o > initramfs.cpio
