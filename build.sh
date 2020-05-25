@@ -4,13 +4,14 @@ export FORCE_UNSAFE_CONFIGURE=1
 echo "Digite o caminho de compilacao"
 read TARGET
 echo "Baixando dependencias"
-sudo apt-get install gcc g++ make libssl-dev libncurses-dev bison flex mkisofs -y
+sudo apt-get install gcc g++ make libssl-dev libncurses-dev meson bison flex mkisofs -y
 echo "Fazendo o download do codigo-fonte"
 wget https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.6.13.tar.xz
 wget https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v2.35/util-linux-2.35.tar.gz
 wget http://ftp.gnu.org/gnu/bash/bash-5.0.tar.gz
 wget https://ftp.gnu.org/gnu/inetutils/inetutils-1.9.4.tar.xz
 wget https://ftp.gnu.org/gnu/coreutils/coreutils-8.32.tar.gz
+wget https://github.com/systemd/systemd/archive/v245.tar.gz
 mkdir $TARGET
 cd $TARGET
 umask 022
@@ -28,6 +29,7 @@ tar -xvf ../../inetutils-1.9.4.tar.xz
 tar -xvf ../../bash-5.0.tar.gz
 tar -xvf ../../util-linux-2.35.tar.gz
 tar -xvf ../../linux-5.6.13.tar.xz
+tar -xvf ../../v245.tar.gz
 echo "Compilando codigo-fonte"
 cd coreutils-8.32
 ./configure --prefix=$TARGET --exec-prefix=$TARGET
@@ -57,21 +59,17 @@ make -j12
 make install 
 make modules_install -j12
 cd ..
+cd systemd-245
+./configure --prefix=$TARGET
+make
+make install
 cd ..
-ln -s bin/bash bin/sh
+cd ..
 rm -rf src
 echo "Criando initramfs"
 find . | cpio -H newc -o > initramfs.cpio
 cat initramfs.cpio | gzip > boot/initramfs.igz
 rm initramfs.cpio
-cat > init << "EOF"
-mount -o proc none /proc
-mount -o sysfs none /sys
-mknod /dev/null c 1 3
-mknod /dev/tty c 5 0
-mdev -s
-exec /bin/sh
-EOF
 rm -rf  usr dev etc home media mnt opt proc root run srv sys var
 echo "Baixando isolinux.bin"
 wget http://mirror.centos.org/centos/6/os/x86_64/isolinux/isolinux.bin -O isolinux/isolinux.bin
@@ -81,7 +79,7 @@ DEFAULT linux
 LABEL linux
      KERNEL /boot/vmlinuz
      INITRD /boot/initramfs.igz
-     APPEND root=/dev/ram0 init=/init
+     APPEND root=/dev/ram0 init=/bin/bash
 EOF
 chmod 777 init
 ln -s boot/vmlinuz-5.6.13 boot/vmlinuz
