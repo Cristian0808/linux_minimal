@@ -33,35 +33,35 @@ tar -xvf ../../v245.tar.gz
 echo "Compilando codigo-fonte"
 cd coreutils-8.32
 ./configure --prefix=$TARGET --exec-prefix=$TARGET
-make -j12
+make -j24
 make install
 cd ..
 cd inetutils-1.9.4
 ./configure --prefix=$TARGET --exec-prefix=$TARGET
-make -j12
+make -j24
 make install
 cd ..
 cd bash-5.0
 ./configure --prefix=$TARGET --exec-prefix=$TARGET --enable-static-link
-make -j12
+make -j24
 make install
 cd ..
 cd util-linux-2.35
 ./configure --prefix=$TARGET --exec-prefix=$TARGET
-make -j12
+make -j24
 make install
 cd ..
 cd linux-5.6.13
 make mrproper
 make menuconfig
 export INSTALL_PATH=$TARGET/boot
-make -j12
+make -j24
 make install 
-make modules_install -j12
+make modules_install -j24
 cd ..
 cd systemd-245
 ./configure --prefix=$TARGET
-make
+make -j24
 make install
 cd ..
 cd ..
