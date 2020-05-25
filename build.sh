@@ -28,7 +28,7 @@ tar -xvf ../../coreutils-8.32.tar.gz
 tar -xvf ../../inetutils-1.9.4.tar.xz
 tar -xvf ../../bash-5.0.tar.gz
 tar -xvf ../../util-linux-2.35.tar.gz
-tar -xvf ../../linux-3.9.11.tar.xz
+tar -xvf ../../linux-3.9.11.tar.gz
 tar -xvf ../../v245.tar.gz
 echo "Compilando codigo-fonte"
 cd coreutils-8.32
