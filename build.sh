@@ -53,7 +53,9 @@ make install
 cd ..
 cd linux-5.6.13
 make mrproper
-make menuconfig
+echo "Baixando a configuração do kernel"
+wget https://raw.githubusercontent.com/Cristian0808/linux_minimal/master/config -O .config
+echo "Compilando kernel"
 export INSTALL_PATH=$TARGET/boot
 make -j24
 make install 
