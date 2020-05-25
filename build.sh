@@ -33,22 +33,22 @@ tar -xvf ../../v245.tar.gz
 echo "Compilando codigo-fonte"
 cd coreutils-8.32
 ./configure --prefix=$TARGET --exec-prefix=$TARGET
-make -j24
+make -j12
 make install
 cd ..
 cd inetutils-1.9.4
 ./configure --prefix=$TARGET --exec-prefix=$TARGET
-make -j24
+make -j12
 make install
 cd ..
 cd bash-5.0
 ./configure --prefix=$TARGET --exec-prefix=$TARGET --enable-static-link
-make -j24
+make -j12
 make install
 cd ..
 cd util-linux-2.35
 ./configure --prefix=$TARGET --exec-prefix=$TARGET
-make -j24
+make -j12
 make install
 cd ..
 cd linux-5.6.13
@@ -57,13 +57,13 @@ echo "Baixando a configuração do kernel"
 wget https://raw.githubusercontent.com/Cristian0808/linux_minimal/master/config -O .config
 echo "Compilando kernel"
 export INSTALL_PATH=$TARGET/boot
-make -j24
+make -j12
 make install 
-make modules_install -j24
+make modules_install -j12
 cd ..
 cd systemd-245
 ./configure --prefix=$TARGET
-make -j24
+make -j12
 make install
 cd ..
 cd ..
