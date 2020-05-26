@@ -11,7 +11,6 @@ wget https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v2.35/util-linux
 wget http://ftp.gnu.org/gnu/bash/bash-5.0.tar.gz
 wget https://ftp.gnu.org/gnu/inetutils/inetutils-1.9.4.tar.xz
 wget https://ftp.gnu.org/gnu/coreutils/coreutils-8.32.tar.gz
-wget https://github.com/systemd/systemd/archive/v245.tar.gz
 mkdir $TARGET
 cd $TARGET
 umask 022
@@ -60,11 +59,6 @@ export INSTALL_PATH=$TARGET/boot
 make -j12
 make install 
 make modules_install -j12
-cd ..
-cd systemd-245
-./configure --prefix=$TARGET
-make -j12
-make install
 cd ..
 cd ..
 rm -rf src
