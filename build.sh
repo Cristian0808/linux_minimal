@@ -55,6 +55,9 @@ cd linux-3.9.11
 make mrproper
 echo "Baixando a configuração do kernel"
 wget https://raw.githubusercontent.com/Cristian0808/linux_minimal/master/config -O .config
+rm Makefile
+echo "Baixando Makefile corrigido"
+wget https://raw.githubusercontent.com/Cristian0808/linux_minimal/master/Makefile -O Makefile
 echo "Compilando kernel"
 export INSTALL_PATH=$TARGET/boot
 make -j12
