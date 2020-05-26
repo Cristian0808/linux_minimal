@@ -68,6 +68,12 @@ make install
 cd ..
 cd ..
 rm -rf src
+cat > init << "EOF"
+mount -o proc none /proc
+mount -o sysfs none /sys
+exec /bin/bash
+EOF
+chmod 777 init
 echo "Criando initramfs"
 find . | cpio -H newc -o > initramfs.cpio
 cat initramfs.cpio | gzip > boot/initramfs.igz
@@ -81,9 +87,8 @@ DEFAULT linux
 LABEL linux
      KERNEL /boot/vmlinuz
      INITRD /boot/initramfs.igz
-     APPEND root=/dev/ram0 init=/bin/bash
+     APPEND root=/dev/ram0 init=/init
 EOF
-chmod 777 init
 ln -s boot/vmlinuz-5.6.13 boot/vmlinuz
 genisoimage -b isolinux/isolinux.bin -boot-info-table -no-emul-boot -boot-load-size 4 -allow-limited-size -o SO_Linux.iso $TARGET/
 exit 0
