@@ -6,7 +6,7 @@ read TARGET
 echo "Baixando dependencias"
 sudo apt-get install gcc g++ make libssl-dev libncurses-dev meson bison flex mkisofs -y
 echo "Fazendo o download do codigo-fonte"
-wget https://mirrors.edge.kernel.org/pub/linux/kernel/v3.x/linux-3.9.11.tar.gz
+wget https://cdn.kernel.org/pub/linux/kernel/v3.x/linux-3.16.84.tar.xz
 wget https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v2.35/util-linux-2.35.tar.gz
 wget http://ftp.gnu.org/gnu/bash/bash-5.0.tar.gz
 wget https://ftp.gnu.org/gnu/inetutils/inetutils-1.9.4.tar.xz
@@ -28,7 +28,7 @@ tar -xvf ../../coreutils-8.32.tar.gz
 tar -xvf ../../inetutils-1.9.4.tar.xz
 tar -xvf ../../bash-5.0.tar.gz
 tar -xvf ../../util-linux-2.35.tar.gz
-tar -xvf ../../linux-3.9.11.tar.gz
+tar -xvf ../../linux-3.16.84.tar.xz
 tar -xvf ../../v245.tar.gz
 echo "Compilando codigo-fonte"
 cd coreutils-8.32
@@ -51,13 +51,10 @@ cd util-linux-2.35
 make -j12
 make install
 cd ..
-cd linux-3.9.11
+cd linux-3.16.84
 make mrproper
 echo "Baixando a configuração do kernel"
 wget https://raw.githubusercontent.com/Cristian0808/linux_minimal/master/config -O .config
-rm Makefile
-echo "Baixando Makefile corrigido"
-wget https://raw.githubusercontent.com/Cristian0808/linux_minimal/master/Makefile -O Makefile
 echo "Compilando kernel"
 export INSTALL_PATH=$TARGET/boot
 make -j12
