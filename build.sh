@@ -27,7 +27,7 @@ tar -xvf ../../coreutils-8.32.tar.gz
 tar -xvf ../../inetutils-1.9.4.tar.xz
 tar -xvf ../../bash-5.0.tar.gz
 tar -xvf ../../util-linux-2.35.tar.gz
-tar -xvf ../../linux-3.16.84.tar.xz
+tar -xvf ../../linux-5.6.15.tar.xz
 echo "Compilando codigo-fonte"
 cd coreutils-8.32
 ./configure --prefix=$TARGET --exec-prefix=$TARGET
@@ -49,7 +49,7 @@ cd util-linux-2.35
 make -j12
 make install
 cd ..
-cd linux-3.16.84
+cd linux-5.6.15
 make mrproper
 echo "Baixando a configuração do kernel"
 wget https://raw.githubusercontent.com/Cristian0808/linux_minimal/master/config -O .config
@@ -61,6 +61,12 @@ make modules_install -j12
 cd ..
 cd ..
 rm -rf src
+cat > etc/passwd << "EOF"
+root:x:0:0:root:/root:/bin/bash
+EOF
+cat > etc/group << "EOF"
+root:x:0:
+EOF
 cat > init << "EOF"
 mount -o proc none /proc
 mount -o sysfs none /sys
@@ -82,6 +88,6 @@ LABEL linux
      INITRD /boot/initramfs.igz
      APPEND root=/dev/ram0 init=/init
 EOF
-ln -s boot/vmlinuz-5.6.13 boot/vmlinuz
+ln -s boot/vmlinuz-5.6.15 boot/vmlinuz
 genisoimage -b isolinux/isolinux.bin -boot-info-table -no-emul-boot -boot-load-size 4 -allow-limited-size -o SO_Linux.iso $TARGET/
 exit 0
