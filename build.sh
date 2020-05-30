@@ -6,7 +6,7 @@ read TARGET
 echo "Baixando dependencias"
 sudo apt-get install gcc g++ make libssl-dev libncurses-dev meson bison flex mkisofs -y
 echo "Fazendo o download do codigo-fonte"
-wget https://cdn.kernel.org/pub/linux/kernel/v3.x/linux-3.16.84.tar.xz
+wget https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.6.15.tar.xz
 wget https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v2.35/util-linux-2.35.tar.gz
 wget http://ftp.gnu.org/gnu/bash/bash-5.0.tar.gz
 wget https://ftp.gnu.org/gnu/inetutils/inetutils-1.9.4.tar.xz
