@@ -11,6 +11,7 @@ wget https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v2.35/util-linux
 wget http://ftp.gnu.org/gnu/bash/bash-5.0.tar.gz
 wget https://ftp.gnu.org/gnu/inetutils/inetutils-1.9.4.tar.xz
 wget https://ftp.gnu.org/gnu/coreutils/coreutils-8.32.tar.gz
+wget https://ftp.gnu.org/gnu/glibc/glibc-2.31.tar.xz
 mkdir $TARGET
 cd $TARGET
 umask 022
@@ -28,6 +29,7 @@ tar -xvf ../../inetutils-1.9.4.tar.xz
 tar -xvf ../../bash-5.0.tar.gz
 tar -xvf ../../util-linux-2.35.tar.gz
 tar -xvf ../../linux-5.6.15.tar.xz
+tar -xvf ../../glibc-2.31.tar.xz
 echo "Compilando codigo-fonte"
 cd coreutils-8.32
 ./configure --prefix=$TARGET --exec-prefix=$TARGET
@@ -48,6 +50,14 @@ cd util-linux-2.35
 ./configure --prefix=$TARGET --exec-prefix=$TARGET
 make -j12
 make install
+cd ..
+cd glibc-2.31
+mkdir build
+cd build
+../configure --enable-static-pie --prefix=$TARGET/ --exec-prefix=$TARGET/
+make -j12
+make install
+cd ..
 cd ..
 cd linux-5.6.15
 make mrproper
@@ -72,6 +82,7 @@ mount -o proc none /proc
 mount -o sysfs none /sys
 exec /bin/bash
 EOF
+read -s -n 1 -p "Entre no seu sistema via chroot e veja se esta tudo OK, estando tudo OK use qualquer tecla para continuar"
 chmod 777 init
 echo "Criando initramfs"
 find . | cpio -H newc -o > initramfs.cpio
