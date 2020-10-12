@@ -3,10 +3,19 @@ set -e
 export FORCE_UNSAFE_CONFIGURE=1
 echo "Digite o caminho de compilacao"
 read TARGET
+echo "Digite o caminho onde vai ficar os códigos-fontes"
+read SRC
+rm -rf $SRC
+rm -rf $TARGET
+mkdir $SRC
 echo "Baixando dependencias"
-sudo apt-get install gcc g++ make libssl-dev libncurses-dev meson bison flex mkisofs -y
+sudo apt-get install gcc g++ make libssl-dev libncurses-dev meson bison flex genisoimage -y
 echo "Fazendo o download do codigo-fonte"
-wget https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.6.15.tar.xz
+wget https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.6.15.tar.xz -O $SRC/linux-5.6.15.tar.xz
+echo "Baixando udev"
+wget http://ftp.be.debian.org/pub/linux/utils/kernel/hotplug/udev-182.tar.gz -O $SRC/udev-182.tar.gz
+echo "Baixando coreutils"
+wget https://ftp.gnu.org/gnu/coreutils/coreutils-8.32.tar.gz -O $SRC/coreutils-8.32.tar.gz
 mkdir $TARGET
 cd $TARGET
 umask 022
@@ -19,9 +28,11 @@ ln -s usr/libx32 libx32
 ln -s usr/sbin sbin
 cd src
 echo "Descompactando codigo-fonte"
-tar -xvf ../../linux-5.6.15.tar.xz
+tar -xvf $SRC/linux-5.6.15.tar.xz -C  $SRC
+tar -xvf $SRC/udev-182.tar.gz -C $SRC
+tar -xvf $SRC/coreutils-8.32.tar.gz -C $SRC
 echo "Compilando codigo-fonte"
-cd linux-5.6.15
+cd $SRC/linux-5.6.15
 make mrproper
 echo "Baixando a configuração do kernel"
 wget https://raw.githubusercontent.com/Cristian0808/linux_minimal/master/config -O .config
@@ -32,10 +43,6 @@ make install
 make modules_install -j12
 cd ..
 cd ..
-wget https://busybox.net/downloads/binaries/1.30.0-i686/busybox -O busybox
-chmod +x busybox
-./busybox --install .
-rm busybox
 rm -rf src
 cat > etc/passwd << "EOF"
 root:x:0:0:root:/root:/bin/bash
